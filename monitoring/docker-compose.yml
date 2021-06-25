@@ -1,0 +1,77 @@
+version: "3"
+services:
+  jvm:
+    image: "jvmdemo:latest"
+    ports: 
+      - "8081:8081"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "500M"
+  graalvm:
+    image: "graalvmdemo:0.0.3-SNAPSHOT"
+    ports: 
+      - "8082:8082"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "500M"
+  quarkus:
+    image: "quarkusdemo:latest"
+    ports: 
+      - "8083:8083"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "500M"
+  pistache:
+    image: "pistachedemo:latest"
+    ports: 
+      - "8084:8084"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "500M"
+  go:
+    image: "godemo:latest"
+    ports: 
+      - "8085:8085"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "500M"
+  cadvisor:
+    image: "google/cadvisor:latest"
+    ports: 
+      - "8080:8080"
+    volumes: 
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:ro"
+      - "/sys:/sys:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+      - "/dev/disk/:/dev/disk:ro"
+  prometheus:
+    image: "prom/prometheus:latest"
+    ports: 
+      - "9090:9090"
+    volumes: 
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml:ro"
+  node-exporter:
+    image: "prom/node-exporter:latest"
+    ports: 
+      - "9100:9100"
+  grafana:
+    image: "grafana/grafana:latest"
+    ports: 
+      - "3000:3000"
+    user: "0"
+    volumes:
+      - "./grafana-data:/var/lib/grafana"
+volumes:
+  grafana-data:
+    external: true
